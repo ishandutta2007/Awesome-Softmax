@@ -9,9 +9,12 @@ The Softmax function is a fundamental mathematical operator used in multi-class 
 
 The implementation of the Softmax function has transitioned from traditional static statistical normalization to hardware-fused, memory-mapped kernels capable of processing ultra-long sequence lengths.
 
-
-[Standard Softmax (1959/1989)] ----> [Numerical Max-Subtraction] ----> [Online/Streaming (FlashAttention)](Traditional Vector Rescaling)       (Overflow/Underflow Mitigation)     (Incremental Rescaling in SRAM)
-
+```mermaid
+flowchart LR
+    A["Standard Softmax (1959/1989)<br/>(Traditional Vector Rescaling)"]
+    --> B["Numerical Max-Subtraction<br/>(Overflow/Underflow Mitigation)"]
+    --> C["Online/Streaming (FlashAttention)<br/>(Incremental Rescaling in SRAM)"]
+```
 
 
 *   **The Foundation Era (Luce 1959 / Bridle 1989)**
