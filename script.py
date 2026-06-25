@@ -1,4 +1,69 @@
-<div align="center">
+import os
+
+root_dir = r"C:\Users\ishan\Documents\Projects\Awesome-Softmax"
+assets_dir = os.path.join(root_dir, "assets")
+pages_dir = os.path.join(root_dir, "pages")
+
+os.makedirs(assets_dir, exist_ok=True)
+os.makedirs(pages_dir, exist_ok=True)
+
+# 1. Generate SVG Banner
+svg_content = """<svg width="800" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8A2387;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#E94057;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F27121;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grad1)" rx="15"/>
+  <text x="50%" y="45%" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">Awesome Softmax</text>
+  <text x="50%" y="70%" font-family="Arial, sans-serif" font-size="20" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">Evolution, Variants, Types, &amp; Applications</text>
+</svg>"""
+with open(os.path.join(assets_dir, "banner.svg"), "w") as f:
+    f.write(svg_content)
+
+# 2. Define the 14 pages
+pages = [
+    {"filename": "foundation_era.md", "title": "The Foundation Era (Luce 1959 / Bridle 1989)", "desc": "Standard Softmax and its roots in statistical mechanics."},
+    {"filename": "log_sum_exp.md", "title": "The Log-Sum-Exp & Safe Softmax Era", "desc": "Numerical Max-Subtraction and Overflow/Underflow Mitigation."},
+    {"filename": "flash_attention.md", "title": "The Online & Fused Streaming Era", "desc": "FlashAttention and Incremental Rescaling in SRAM."},
+    {"filename": "temperature_scaled.md", "title": "Temperature-Scaled Softmax", "desc": "Managing creativity and randomness in LLMs."},
+    {"filename": "hierarchical_softmax.md", "title": "Hierarchical Softmax", "desc": "Logarithmic scaling with balanced binary trees."},
+    {"filename": "log_softmax.md", "title": "Log-Softmax", "desc": "Mathematically fused shortcut formula for stability."},
+    {"filename": "sparsemax.md", "title": "Sparsemax", "desc": "Absolute architectural sparsity with true zeros."},
+    {"filename": "gumbel_softmax.md", "title": "Gumbel-Softmax", "desc": "Continuous differentiable approximation of a discrete distribution."},
+    {"filename": "squared_relu.md", "title": "Squared ReLU", "desc": "Bounded polynomial activation eliminating exponential math overhead."},
+    {"filename": "gpu_memory.md", "title": "The GPU Memory-Bandwidth Constraint", "desc": "Operator Fusion compilers and thread block execution cycles."},
+    {"filename": "centering_saturation.md", "title": "The Softmax Centering Saturation Problem", "desc": "LayerNorm and RMSNorm mitigations."},
+    {"filename": "llm_sampling.md", "title": "Autoregressive LLM Sampling Layers", "desc": "Evaluating the final unnormalized vector layer."},
+    {"filename": "cross_attention.md", "title": "Transformer Cross-Attention Alignment", "desc": "Multi-Head Attention weighting matrix."},
+    {"filename": "multiclass_vision.md", "title": "Multi-Class Image Vision Networks", "desc": "Terminal layers for ResNet, ViT, etc."}
+]
+
+for p in pages:
+    content = f"""# {p['title']}
+
+## Overview
+{p['desc']}
+
+## Diagram
+```mermaid
+graph TD;
+    A[Raw Logits] --> B[Processing];
+    B --> C[Normalized Output];
+```
+
+## Detailed Information
+This section contains detailed information regarding **{p['title']}**. The method addresses key mathematical and computational aspects of neural network design.
+
+[Back to Main README](../README.md)
+"""
+    with open(os.path.join(pages_dir, p['filename']), "w") as f:
+        f.write(content)
+
+# 3. Rewrite README.md
+readme_content = """<div align="center">
   <img src="assets/banner.svg" alt="Awesome Softmax Banner" />
   <h1>🚀 Awesome-Softmax 🧠</h1>
   <p><strong>A curated list of resources for the Softmax Function: Evolution, Variants, Types, & Applications</strong></p>
@@ -41,9 +106,9 @@ These structural variations modify the default Softmax equation to alter the mod
 
 | Variant | Equation | Mechanism | Pros / Application | Year | Paper Link | Details |
 | --- | --- | --- | --- | --- | --- | --- |
-| **Temperature-Scaled Softmax** | $\text{Softmax}(x_i / T)$ | Introduces a scaling hyperparameter, Temperature ($T$). | Manages creativity and randomness in LLMs. | 2015 | [Paper](https://arxiv.org/abs/1503.02531) | [Read More](pages/temperature_scaled.md) |
-| **Hierarchical Softmax** | N/A | Replaces flat vocab with a balanced binary tree. | Logarithmic scaling ($O(\log V)$). | 2001 | [Paper](https://arxiv.org/abs/cs/0108006) | [Read More](pages/hierarchical_softmax.md) |
-| **Log-Softmax** | $\log(\text{Softmax}(x))$ | Computes logarithm directly using fused shortcut. | Improves stability with NLL loss. | 2011 | [Paper](https://aclanthology.org/) | [Read More](pages/log_softmax.md) |
+| **Temperature-Scaled Softmax** | $\\text{Softmax}(x_i / T)$ | Introduces a scaling hyperparameter, Temperature ($T$). | Manages creativity and randomness in LLMs. | 2015 | [Paper](https://arxiv.org/abs/1503.02531) | [Read More](pages/temperature_scaled.md) |
+| **Hierarchical Softmax** | N/A | Replaces flat vocab with a balanced binary tree. | Logarithmic scaling ($O(\\log V)$). | 2001 | [Paper](https://arxiv.org/abs/cs/0108006) | [Read More](pages/hierarchical_softmax.md) |
+| **Log-Softmax** | $\\log(\\text{Softmax}(x))$ | Computes logarithm directly using fused shortcut. | Improves stability with NLL loss. | 2011 | [Paper](https://aclanthology.org/) | [Read More](pages/log_softmax.md) |
 
 ---
 
@@ -55,7 +120,7 @@ These variants modify or replace the exponential baseline function to introduce 
 | --- | --- | --- | --- | --- | --- |
 | **Sparsemax** | Localized projection onto a probability simplex. | Outputs true zeros for low-scoring elements. | 2016 | [Paper](https://arxiv.org/abs/1602.02068) | [Read More](pages/sparsemax.md) |
 | **Gumbel-Softmax** | Appends continuous, independent Gumbel noise. | Differentiable approximation of discrete choices. | 2016 | [Paper](https://arxiv.org/abs/1611.01144) | [Read More](pages/gumbel_softmax.md) |
-| **Squared ReLU** | Bounded polynomial activation like $\text{ReLU}(x)^2$. | Eliminates transcendental exponential math overhead. | 2021 | [Paper](https://arxiv.org/abs/2109.08668) | [Read More](pages/squared_relu.md) |
+| **Squared ReLU** | Bounded polynomial activation like $\\text{ReLU}(x)^2$. | Eliminates transcendental exponential math overhead. | 2021 | [Paper](https://arxiv.org/abs/2109.08668) | [Read More](pages/squared_relu.md) |
 
 ---
 
@@ -90,3 +155,7 @@ While mathematically simple, executing Softmax across billions of parameters cre
 </picture>
 </a>
 </div>
+"""
+
+with open(os.path.join(root_dir, "README.md"), "w", encoding='utf-8') as f:
+    f.write(readme_content)
